@@ -48,5 +48,20 @@ class AccountManagerTest {
 			manager.depositAmount(null, new BigDecimal(20.0));
 	    });
 	}
+	
+	@Test
+	void shouldWithdrawAmount() throws BankAccountException {
+		Account account = new Account(new BigDecimal(20.0));
+		account = manager.withdrawAmount(account, new BigDecimal(10.0));
+		assertEquals(account.getBalance(), new BigDecimal(10.0));
+	}
+	
+	@Test
+	void shouldFailWithdrawAmountInsufficientBalance() throws BankAccountException {
+		Account account = new Account(new BigDecimal(10.0));
+		assertThrows(BankAccountException.class, () -> {
+			manager.withdrawAmount(account, new BigDecimal(20.0));
+	    });
+	}
 
 }

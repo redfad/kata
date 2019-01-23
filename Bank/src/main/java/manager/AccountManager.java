@@ -22,6 +22,19 @@ public class AccountManager {
 		return account;
 	}
 
-	
+	public Account withdrawAmount(Account account, BigDecimal amount) throws BankAccountException {
+		LOG.info("Request to deposit amount : " + amount + " to Account : " + account);
+		if (account != null) {
+			if (account.getBalance().compareTo(amount) < 0) {
+				throw new BankAccountException("insufficient balance! current balance :" + account.getBalance());
+			} else {
+				account.setBalance(account.getBalance().subtract(amount));
+				accountDAO.save(account);
+			}
+		} else {
+			throw new BankAccountException("Please provide an account not null !");
+		}
+		return account;
+	}
 
 }
